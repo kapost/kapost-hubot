@@ -21,7 +21,6 @@ call_api = (robot, msg, message, amplify, endpoint) ->
 module.exports = (robot) ->
 
   robot.respond /speechify (.*)$/i, (msg) ->
-    msg.send msg.match[1]
     [is_quiet, message] = parse_message(msg.match[1])
     call_api(robot, msg, message, !is_quiet, 'speechify')
 
