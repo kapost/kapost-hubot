@@ -15,8 +15,8 @@ call_api = (robot, msg, message, amplify, endpoint) ->
   robot.http(url).get() (err, res, body) ->
     if err || (res.statusCode != 200)
       msg.send 'Failed'
-    else
-      msg.send 'Success'
+    #else
+      #msg.send 'Success'
 
 module.exports = (robot) ->
 
