@@ -11,7 +11,8 @@ parse_message = (message) ->
   [temp_message != message, temp_message]
 
 call_api = (robot, msg, message, amplify, endpoint) ->
-  robot.http("http://radish.kapost.com/#{endpoint}").post(JSON.stringify({message: message, amplify: amplify})) (err, res, body) ->
+  url = "http://radish.kapost.com/#{endpoint}?message=" + encodeURIComponent(message) + "&amplify=" +encodeURIComponent(amplify)
+  robot.http(url).get() (err, res, body) ->
     if err || (res.statusCode != 200)
       msg.send 'Failed'
     else
@@ -20,14 +21,15 @@ call_api = (robot, msg, message, amplify, endpoint) ->
 module.exports = (robot) ->
 
   robot.respond /speechify (.*)$/i, (msg) ->
-    [is_quiet, message] = parse_message(msg.match[0])
+    msg.send msg.match[1]
+    [is_quiet, message] = parse_message(msg.match[1])
     call_api(robot, msg, message, !is_quiet, 'speechify')
 
   robot.respond /shameify (.*)$/i, (msg) ->
-    [is_quiet, message] = parse_message(msg.match[0])
+    [is_quiet, message] = parse_message(msg.match[1])
     call_api(robot, msg, message, !is_quiet, 'shameify')
 
   robot.respond /praisify (.*)$/i, (msg) ->
-    [is_quiet, message] = parse_message(msg.match[0])
+    [is_quiet, message] = parse_message(msg.match[1])
     call_api(robot, msg, message, !is_quiet, 'praisify')
 
