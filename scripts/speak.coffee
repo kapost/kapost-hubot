@@ -11,7 +11,7 @@ parse_message = (message) ->
   [temp_message != message, temp_message]
 
 call_api = (robot, msg, message, amplify, endpoint) ->
-  robot.http("http://localhost:9292/#{endpoint}").post(JSON.stringify({message: message, amplify: amplify})) (err, res, body) ->
+  robot.http("http://radish.kapost.com/#{endpoint}").post(JSON.stringify({message: message, amplify: amplify})) (err, res, body) ->
     if err || (res.statusCode != 200)
       msg.send 'Failed'
     else
